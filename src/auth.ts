@@ -29,5 +29,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.expires = token.expiresAt as Date & string
       return session
     }
+  },
+  pages: {
+    signIn: '/login'
+    // signOut: '/api/auth/signout',
+    // error: '/error'
   }
 })

@@ -2,25 +2,20 @@
 import { auth } from '@/auth'
 
 export default auth(async (req) => {
-  if (req.nextUrl.pathname === '/') {
-    // ruta pública
-  } else {
-    // ruta privada
-    if (!req.auth) {
-      // No estoy logueado
-      const newUrl = new URL('/api/auth/signin', req.nextUrl.origin)
-      console.log('redirigiendo a: ', newUrl.toString())
-      return Response.redirect(newUrl.toString())
-    }
-    // if (req.auth?.expires !== undefined) {
-    //   // Estoy logueado
-    //   if (Math.floor(Date.now() / 1000) > parseInt(req.auth?.expires)) {
-    //     // La sesión ha expirado
-    //     console.log(Date.now(), parseInt(req.auth?.expires))
-    //     console.log('sesión expirada')
-    //     return Response.redirect(new URL('/api/signout', req.nextUrl.origin).toString())
-    //   }
-    // }
+  if (req.nextUrl.pathname === '/' && req.auth) {
+    // '/' y estoy logueado
+    console.log('redirecting to /dashboard')
+    return Response.redirect(new URL('/dashboard', req.nextUrl.origin))
+  }
+  if (req.nextUrl.pathname === '/login' && req.auth) {
+    // '/login' y estoy logueado
+    console.log('redirecting to /dashboard')
+    return Response.redirect(new URL('/dashboard', req.nextUrl.origin))
+  }
+  if (req.nextUrl.pathname === '/dashboard' && !req.auth) {
+    // '/dashboard' y no estoy logueado
+    console.log('redirecting to login')
+    return Response.redirect(new URL('/api/auth/signin', req.nextUrl.origin))
   }
 })
 export const config = {

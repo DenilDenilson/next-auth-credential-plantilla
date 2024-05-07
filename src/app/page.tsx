@@ -5,8 +5,9 @@ export default async function Home () {
   const session = await auth()
   if (session === null) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
       Hola denil - modo público
+      <a href="/api/auth/signin">Inicia sesión</a>
     </main>
     )
   } else {
